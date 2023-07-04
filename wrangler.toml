@@ -1,0 +1,17 @@
+name = "discord-bot-rust"
+type = "javascript"
+workers_dev = "true"
+
+[vars]
+WORKERS_RS_VERSION = "0.0.17"
+
+[build]
+command = "cargo install -q worker-build && worker-build --release"
+
+[build.upload]
+format = "modules"
+dir = "build/worker"
+
+[[build.upload.rules]]
+globs = ["**/*.wasm"]
+type = "CompiledWasm"
