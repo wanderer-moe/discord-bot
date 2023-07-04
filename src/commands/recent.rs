@@ -29,7 +29,7 @@ impl Command for Recent {
                             .replace(".png", "");
                         let url = format!(
                             "https://wanderer.moe/asset/{}",
-                            asset["id"].as_u64().unwrap().to_string()
+                            asset["id"].as_u64().unwrap()
                         );
                         let uploaded_date = asset["uploadedDate"].as_str().unwrap().to_string();
                         content.push_str(&format!(
