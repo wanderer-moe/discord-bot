@@ -96,21 +96,19 @@ pub(crate) trait Command {
         &self,
         _input: &CommandInput,
     ) -> Result<InteractionApplicationCommandCallbackData, InteractionError> {
-        // Implement the command logic here
         unimplemented!()
     }
 
     fn name(&self) -> String {
-        // The command name, ie `return "greet".to_string()` for /greet
         unimplemented!()
     }
 
     fn description(&self) -> String {
-        // A short description
         unimplemented!()
     }
+
+    // https://discord.com/developers/docs/interactions/application-commands#application-command-object-application-command-option-structure
     fn options(&self) -> Option<Vec<ApplicationCommandOption>> {
-        // add any arguments/choices here, more info at https://discord.com/developers/docs/interactions/application-commands#application-command-object-application-command-option-structure
         unimplemented!()
     }
 

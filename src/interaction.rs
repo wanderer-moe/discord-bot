@@ -90,15 +90,15 @@ pub(crate) struct Interaction {
 
 #[derive(Serialize_repr, Deserialize_repr, Clone)]
 #[repr(u8)]
+
+// ref: // https://discord.com/developers/docs/interactions/application-commands
 pub(crate) enum ApplicationCommandOptionType {
-    // https://discord.com/developers/docs/interactions/application-commands#application-command-object-application-command-option-type
     SubCommand = 1,
     SubCommandGroup = 2,
     String = 3,
 }
 #[derive(Deserialize, Serialize, Clone)]
 pub(crate) struct ApplicationCommandOption {
-    // https://discord.com/developers/docs/interactions/application-commands#application-command-object-application-command-option-structure
     pub(crate) name: String,
     pub(crate) description: String,
     #[serde(rename = "type")]
@@ -110,7 +110,6 @@ pub(crate) struct ApplicationCommandOption {
 
 #[derive(Deserialize, Serialize, Clone, Debug)]
 pub(crate) struct ApplicationCommandOptionChoice {
-    // https://discord.com/developers/docs/interactions/application-commands#application-command-object-application-command-option-choice-structure
     pub(crate) name: String,
     pub(crate) value: String,
 }

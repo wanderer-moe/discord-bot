@@ -21,4 +21,10 @@ wrangler publish
 
 ## actions
 
-there is a github action that will automatically deploy the worker on push to main branch & will check for idiomatic code & formatting on pull requests.
+there is a github action that will automatically deploy the worker on push to main branch & will check for idiomatic code & formatting on pull requests, as `@cloudflare/wrangler-action` doesn't support rust.
+
+a workaround is to run `npx i -g wrangler` where you pass in your `CF_API_TOKEN` repository secret into the env in the action before running `wrangler publish`
+
+## credits
+
+this code is based off [mcdallas/rust-discord-bot](https://github.com/mcdallas/rust-discord-bot/tree/master))
