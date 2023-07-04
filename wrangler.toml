@@ -1,17 +1,10 @@
 name = "discord-bot-rust"
-type = "javascript"
-workers_dev = "true"
+workers_dev = true
+compatibility_date = "2023-05-18"
+main = "build/worker/shim.mjs"
 
 [vars]
 WORKERS_RS_VERSION = "0.0.17"
 
 [build]
 command = "cargo install -q worker-build && worker-build --release"
-
-[build.upload]
-format = "modules"
-dir = "build/worker"
-
-[[build.upload.rules]]
-globs = ["**/*.wasm"]
-type = "CompiledWasm"
