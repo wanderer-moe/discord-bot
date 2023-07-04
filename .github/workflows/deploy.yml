@@ -16,7 +16,7 @@ jobs:
             - name: Deploy to Cloudflare Workers using Wrangler
               env:
                     CF_API_TOKEN: ${{ secrets.CF_API_TOKEN }}
-              run: npm i @cloudflare/wrangler && npx wrangler publish
+              run: npm i -g wrangler && npx wrangler publish
 
             - name: Curl the deployed Worker
               run: curl -X POST https://discord-bot-rust.dromzeh.workers.dev/register
