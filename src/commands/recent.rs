@@ -3,7 +3,6 @@ use crate::error::InteractionError;
 use crate::interaction::{ApplicationCommandOption, InteractionApplicationCommandCallbackData};
 use async_trait::async_trait;
 use reqwest::Client;
-
 pub(crate) struct Recent {}
 
 #[async_trait(?Send)]
@@ -22,15 +21,22 @@ impl Command for Recent {
                 let json = response.json::<serde_json::Value>().await.unwrap();
                 let mut content = String::new();
                 if let Some(assets) = json["results"].as_array() {
-                    let mut i = 1;
-                    for asset in assets.iter().take(10) {
+                    assets.iter().take(5).for_each(|asset| {
+                        let asset_name = asset["name"]
+                            .as_str()
+                            .unwrap()
+                            .to_string()
+                            .replace(".png", "");
+                        let url = format!(
+                            "https://wanderer.moe/asset/{}",
+                            asset["id"].as_u64().unwrap().to_string()
+                        );
+                        let uploaded_date = asset["uploadedDate"].as_str().unwrap().to_string();
                         content.push_str(&format!(
-                            "{}. {}\n",
-                            i,
-                            asset["name"].as_str().unwrap_or("Unknown")
+                            "**{}**: <{}>\nUploaded {}\n\n",
+                            asset_name, url, uploaded_date
                         ));
-                        i += 1;
-                    }
+                    });
                 } else {
                     content = "Error: No results".to_string();
                 }
@@ -50,7 +56,7 @@ impl Command for Recent {
     }
 
     fn description(&self) -> String {
-        "Get top 10 recently uploaded assets".into()
+        "Get top 5 recently uploaded assets".into()
     }
 
     fn options(&self) -> Option<Vec<ApplicationCommandOption>> {
