@@ -3,27 +3,27 @@ use crate::error::InteractionError;
 use crate::interaction::{ApplicationCommandOption, InteractionApplicationCommandCallbackData};
 use async_trait::async_trait;
 
-pub(crate) struct Ping {}
+pub(crate) struct Recent {}
 
 #[async_trait(?Send)]
-impl Command for Ping {
+impl Command for Recent {
     async fn respond(
         &self,
         _input: &CommandInput,
     ) -> Result<InteractionApplicationCommandCallbackData, InteractionError> {
         Ok(InteractionApplicationCommandCallbackData {
-            content: Some("Pong!".to_string()),
+            content: Some("Test Response".to_string()),
             choices: None,
             embeds: None,
         })
     }
 
     fn name(&self) -> String {
-        "ping".into()
+        "recent".into()
     }
 
     fn description(&self) -> String {
-        "Send a ping".into()
+        "Get top 30 recently uploaded assets".into()
     }
 
     fn options(&self) -> Option<Vec<ApplicationCommandOption>> {

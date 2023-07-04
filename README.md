@@ -27,4 +27,8 @@ a workaround is to run `npx i -g wrangler` where you pass in your `CF_API_TOKEN`
 
 ## credits
 
-this code is based off [mcdallas/rust-discord-bot](https://github.com/mcdallas/rust-discord-bot/tree/master))
+this code is based off [mcdallas/rust-discord-bot](https://github.com/mcdallas/rust-discord-bot/tree/master)
+
+## License
+
+This repository is licensed under the [GNU Affero General Public License v3.0](https://choosealicense.com/licenses/gpl-3.0/) license — **You must state all significant changes made to the original software, make the source code available to the public with credit to the original author, original source, and use the same license.**
