@@ -1,9 +1,10 @@
 use crate::command::{Command, CommandInput};
 use crate::error::InteractionError;
-use crate::helpers::casing::{map_asset_type, map_game};
+use crate::helpers::asset::format_assets;
 use crate::interaction::{ApplicationCommandOption, InteractionApplicationCommandCallbackData};
 use async_trait::async_trait;
 use reqwest::Client;
+
 pub(crate) struct Recent {}
 
 #[async_trait(?Send)]
@@ -20,32 +21,12 @@ impl Command for Recent {
         let content = match response {
             Ok(response) => {
                 let json = response.json::<serde_json::Value>().await.unwrap();
-                let mut content = String::new();
-                if let Some(assets) = json["results"].as_array() {
-                    assets.iter().take(5).for_each(|asset| {
-                        let asset_name = asset["name"]
-                            .as_str()
-                            .unwrap()
-                            .to_string()
-                            .replace(".png", "");
-                        let url = format!(
-                            "https://wanderer.moe/asset/{}",
-                            asset["id"].as_u64().unwrap()
-                        );
-                        let game = map_game(asset["game"].as_str().unwrap());
-                        let asset_category = map_asset_type(asset["asset"].as_str().unwrap());
-                        let uploaded_date = asset["uploadedDate"].as_str().unwrap().to_string();
-                        content.push_str(&format!(
-                            "**{}** ({}: {}) \n<{}>\nUploaded {}\n\n",
-                            asset_name, game, asset_category, url, uploaded_date
-                        ));
-                    });
-                } else {
-                    content = "Error: No results".to_string();
-                }
-                content
+                let assets = json["results"]
+                    .as_array()
+                    .map_or_else(Vec::new, |v| v.to_vec());
+                format_assets(&assets)
             }
-            Err(e) => format!("Error fetching recent assets: {}", e),
+            Err(_) => "An error occurred while fetching recent assets".to_string(),
         };
         Ok(InteractionApplicationCommandCallbackData {
             content: Some(content),
