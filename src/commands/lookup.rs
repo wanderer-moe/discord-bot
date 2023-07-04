@@ -1,6 +1,6 @@
 use crate::command::{Command, CommandInput};
 use crate::error::InteractionError;
-use crate::helpers::asset::format_assets;
+use crate::helpers::asset::format_asset;
 use crate::interaction::{
     ApplicationCommandOption, ApplicationCommandOptionType,
     InteractionApplicationCommandCallbackData,
@@ -8,38 +8,27 @@ use crate::interaction::{
 use async_trait::async_trait;
 use reqwest::Client;
 
-pub(crate) struct Search {}
+pub(crate) struct Lookup {}
 
 #[async_trait(?Send)]
-impl Command for Search {
+impl Command for Lookup {
     async fn respond(
         &self,
         _input: &CommandInput,
     ) -> Result<InteractionApplicationCommandCallbackData, InteractionError> {
-        if let Some(query) = _input.get_option("query") {
-            // if query is less than 3 characters
-            if query.len() < 3 {
-                return Ok(InteractionApplicationCommandCallbackData {
-                    content: Some("Query must be at least 3 characters long".to_string()),
-                    choices: None,
-                    embeds: None,
-                });
-            }
+        if let Some(id) = _input.get_option("id") {
             let client = Client::new();
             let response = client
-                .get("https://v2-api-testing.wanderer.moe/search")
-                .query(&[("query", query)])
+                .get(format!("https://v2-api-testing.wanderer.moe/asset/{}", id).as_str())
                 .send()
                 .await;
             let content = match response {
                 Ok(response) => {
                     let json = response.json::<serde_json::Value>().await.unwrap();
-                    let assets = json["results"]
-                        .as_array()
-                        .map_or_else(Vec::new, |v| v.to_vec());
-                    format_assets(&assets)
+                    let asset = json["asset"].clone();
+                    format_asset(&asset)
                 }
-                Err(_) => "An error occurred while fetching recent assets".to_string(),
+                Err(_) => "An error occurred while the asset".to_string(),
             };
             Ok(InteractionApplicationCommandCallbackData {
                 content: Some(content),
@@ -48,7 +37,7 @@ impl Command for Search {
             })
         } else {
             Ok(InteractionApplicationCommandCallbackData {
-                content: Some("Query must be provided".to_string()),
+                content: Some("ID must be provided".to_string()),
                 choices: None,
                 embeds: None,
             })
@@ -56,18 +45,18 @@ impl Command for Search {
     }
 
     fn name(&self) -> String {
-        "search".into()
+        "lookup".into()
     }
 
     fn description(&self) -> String {
-        "Search for assets".into()
+        "Lookup asset information by ID".into()
     }
 
     fn options(&self) -> Option<Vec<ApplicationCommandOption>> {
         Some(vec![ApplicationCommandOption {
-            name: "query".into(),
+            name: "id".into(),
             autocomplete: Some(true),
-            description: "Name of file".into(),
+            description: "ID of the asset to lookup".into(),
             required: Some(true),
             ty: ApplicationCommandOptionType::String,
             choices: None,
