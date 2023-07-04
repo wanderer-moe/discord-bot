@@ -1,4 +1,4 @@
-## discord bot made with rust & cloudfare workers
+## discord bot made with rust & cloudflare workers
 temporary readme until i have time to write a proper one
 
 ## setup
