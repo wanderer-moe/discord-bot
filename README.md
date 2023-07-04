@@ -1,10 +1,13 @@
 ## discord bot made with rust & cloudflare workers
 temporary readme until i have time to write a proper one
 
+[![Rust Report Card](https://rust-reportcard.xuri.me/badge/github.com/wanderer-moe/discord-bot)](https://rust-reportcard.xuri.me/report/github.com/wanderer-moe/discord-bot)
+
 ## setup
 
 - clone repo
-- install wrangler & create worker for this project, modify `wrangler.toml` to match your needs
+- install wrangler & create worker for this project
+- modify `wrangler.toml` to match your needs (d1 binding, worker name, etc)
 - enter appropiate secrets using `wrangler secret put` for `DISCORD_TOKEN`, `DISCORD_APPLICATION_ID` and `DISCORD_PUBLIC_KEY`
 
 ## run locally
