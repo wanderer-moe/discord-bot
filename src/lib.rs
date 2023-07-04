@@ -5,6 +5,7 @@ mod command;
 mod commands;
 mod embed;
 mod error;
+mod helpers;
 mod http;
 mod interaction;
 mod utils;

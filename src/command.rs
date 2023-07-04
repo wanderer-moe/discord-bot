@@ -132,5 +132,6 @@ pub(crate) fn init_commands() -> Vec<Box<dyn Command + Sync>> {
     vec![
         Box::new(commands::ping::Ping {}),
         Box::new(commands::recent::Recent {}),
+        Box::new(commands::search::Search {}),
     ]
 }

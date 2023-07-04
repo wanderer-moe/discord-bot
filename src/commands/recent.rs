@@ -1,5 +1,6 @@
 use crate::command::{Command, CommandInput};
 use crate::error::InteractionError;
+use crate::helpers::casing::{map_asset_type, map_game};
 use crate::interaction::{ApplicationCommandOption, InteractionApplicationCommandCallbackData};
 use async_trait::async_trait;
 use reqwest::Client;
@@ -31,10 +32,12 @@ impl Command for Recent {
                             "https://wanderer.moe/asset/{}",
                             asset["id"].as_u64().unwrap()
                         );
+                        let game = map_game(asset["game"].as_str().unwrap());
+                        let asset_category = map_asset_type(asset["asset"].as_str().unwrap());
                         let uploaded_date = asset["uploadedDate"].as_str().unwrap().to_string();
                         content.push_str(&format!(
-                            "**{}**: <{}>\nUploaded {}\n\n",
-                            asset_name, url, uploaded_date
+                            "**{}** ({}: {}) \n<{}>\nUploaded {}\n\n",
+                            asset_name, game, asset_category, url, uploaded_date
                         ));
                     });
                 } else {
