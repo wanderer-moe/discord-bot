@@ -28,7 +28,7 @@ impl Command for Lookup {
                     let asset = json["asset"].clone();
                     format_asset(&asset)
                 }
-                Err(_) => "An error occurred while the asset".to_string(),
+                Err(_) => "An error occurred while getting the asset".to_string(),
             };
             Ok(InteractionApplicationCommandCallbackData {
                 content: Some(content),

@@ -39,7 +39,7 @@ impl Command for Search {
                         .map_or_else(Vec::new, |v| v.to_vec());
                     format_assets(&assets)
                 }
-                Err(_) => "An error occurred while fetching recent assets".to_string(),
+                Err(_) => "An error occurred while fetching assets".to_string(),
             };
             Ok(InteractionApplicationCommandCallbackData {
                 content: Some(content),
